@@ -167,30 +167,6 @@ a { color: var(--cyan); text-decoration: none; }
 }
 .lede { color: var(--muted); font-size: 1.05rem; max-width: 38rem; }
 .hero-actions { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
-.read-aloud-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.read-aloud-controls > .btn { width: auto; }
-.voice-picker {
-  display: grid;
-  gap: 3px;
-  color: var(--muted);
-  font-size: 0.75rem;
-}
-.voice-picker select {
-  min-width: 220px;
-  max-width: 100%;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: var(--panel);
-  color: var(--text);
-}
-.voice-hint { flex-basis: 100%; margin: -4px 0 0; color: var(--muted); font-size: 0.78rem; }
-
 .btn {
   display: inline-flex;
   align-items: center;

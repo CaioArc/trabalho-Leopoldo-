@@ -8,7 +8,6 @@
   initMenu();
   initPresentation();
   initPresentationTimer();
-  initReadAloud();
   initToTop();
   initHero();
   initFrames();
@@ -102,82 +101,6 @@
           remaining = 15 * 60;
         }
       }, 1000);
-    });
-  }
-
-  function initReadAloud() {
-    const btn = $("#btnReadAloud");
-    if (!btn) return;
-    const voiceSelect = $("#voiceSelect");
-    const voiceHint = $("#voiceHint");
-    const synth = window.speechSynthesis;
-    if (!synth) {
-      btn.textContent = "Audio nao suportado";
-      btn.disabled = true;
-      return;
-    }
-
-    let portugueseVoices = [];
-
-    function loadVoices() {
-      portugueseVoices = synth.getVoices().filter((voice) => /^pt[-_]/i.test(voice.lang));
-      portugueseVoices.sort((a, b) => {
-        const score = (voice) => {
-          const name = voice.name.toLowerCase();
-          const lang = voice.lang.toLowerCase().replace("_", "-");
-          if (lang === "pt-br" && /google/.test(name)) return 4;
-          if (lang === "pt-br" && /natural|neural|online/.test(name)) return 3;
-          if (lang === "pt-br") return 2;
-          return 1;
-        };
-        return score(b) - score(a);
-      });
-
-      if (voiceSelect) {
-        const previousVoice = voiceSelect.value;
-        voiceSelect.innerHTML = "";
-        const automatic = document.createElement("option");
-        automatic.value = "";
-        automatic.textContent = "Automatica (melhor voz disponivel)";
-        voiceSelect.appendChild(automatic);
-        portugueseVoices.forEach((voice) => {
-          const option = document.createElement("option");
-          option.value = voice.voiceURI;
-          option.textContent = voice.name + " (" + voice.lang + ")";
-          voiceSelect.appendChild(option);
-        });
-        voiceSelect.value = portugueseVoices.some((voice) => voice.voiceURI === previousVoice)
-          ? previousVoice
-          : "";
-      }
-
-      if (voiceHint && portugueseVoices.length === 0) {
-        voiceHint.textContent = "Nenhuma voz em portugues foi listada. A voz padrao do navegador sera usada.";
-      }
-    }
-
-    loadVoices();
-    if (typeof synth.addEventListener === "function") {
-      synth.addEventListener("voiceschanged", loadVoices);
-    }
-
-    btn.addEventListener("click", () => {
-      synth.cancel();
-      const text = "Vídeo digital é uma sequência de quadros exibida em ritmo suficiente para criar a sensação de movimento. FPS indica a quantidade de quadros por segundo. Resolucao indica a quantidade de pixels. Compressao reduz o tamanho do arquivo. Codecs realizam a compressao e o conteiner organiza os fluxos de vídeo e audio.";
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "pt-BR";
-      utterance.rate = 0.92;
-      const selectedVoice = voiceSelect && voiceSelect.value
-        ? portugueseVoices.find((voice) => voice.voiceURI === voiceSelect.value)
-        : portugueseVoices[0];
-      if (selectedVoice) utterance.voice = selectedVoice;
-      utterance.onstart = () => {
-        btn.textContent = selectedVoice ? "Ouvindo: " + selectedVoice.name : "Ouvindo resumo...";
-      };
-      utterance.onerror = () => { btn.textContent = "Ouvir resumo em audio"; };
-      utterance.onend = () => { btn.textContent = "Ouvir resumo em audio"; };
-      synth.speak(utterance);
-      btn.textContent = "Ouvindo resumo...";
     });
   }
 
