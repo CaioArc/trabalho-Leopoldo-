@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Digital — Sistemas Multimedia</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteudo</a>
+
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar" aria-label="Navegacao principal">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="36" height="36">
+            <rect x="4" y="10" width="28" height="22" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M32 18l10-6v18l-10-6z" fill="currentColor"/>
+            <circle cx="14" cy="21" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <strong>VIDEO DIGITAL</strong>
+          <span>Sistemas Multimedia</span>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav">
+        <a href="#introducao" class="nav-link is-active" data-section="introducao"><span class="nav-index">01</span> Introducao</a>
+        <a href="#funcionamento" class="nav-link" data-section="funcionamento"><span class="nav-index">02</span> Funcionamento</a>
+        <a href="#fps" class="nav-link" data-section="fps"><span class="nav-index">03</span> Taxa de quadros</a>
+        <a href="#resolucao" class="nav-link" data-section="resolucao"><span class="nav-index">04</span> Resolucao</a>
+        <a href="#compressao" class="nav-link" data-section="compressao"><span class="nav-index">05</span> Compressao</a>
+        <a href="#codecs" class="nav-link" data-section="codecs"><span class="nav-index">06</span> Codecs</a>
+        <a href="#midias" class="nav-link" data-section="midias"><span class="nav-index">07</span> Midias digitais</a>
+        <a href="#demonstracao" class="nav-link" data-section="demonstracao"><span class="nav-index">08</span> Demonstracao</a>
+        <a href="#conclusao" class="nav-link" data-section="conclusao"><span class="nav-index">09</span> Conclusao</a>
+      </nav>
+
+      <div class="sidebar-actions">
+        <button type="button" class="ghost-btn" id="btnApresentacao" aria-pressed="false">Modo apresentacao</button>
+      </div>
+    </aside>
+
+    <main class="main" id="conteudo">
+      <header class="topbar">
+        <button type="button" class="icon-btn menu-toggle" id="btnMenu" aria-label="Abrir menu" aria-controls="sidebar">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar-title">
+          <h1>VIDEO DIGITAL</h1>
+          <p>Sistemas Multimedia — Explorando a tecnologia por tras da imagem em movimento.</p>
+        </div>
+        <div class="topbar-meta">Ciencia da Computacao</div>
+      </header>
+
+      <section class="hero" id="inicio">
+        <div class="hero-copy">
+          <p class="kicker">Apresentacao universitaria interativa</p>
+          <h2>A tecnologia por tras da imagem em movimento</h2>
+          <p class="lede">Este laboratorio visual explica, demonstra e reproduz os fundamentos do video digital: quadros, FPS, resolucao, compressao, codecs e reproducao.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#introducao">Comecar percurso</a>
+            <a class="btn ghost" href="#demonstracao">Ir ao player</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="scanline"></div>
+          <canvas id="heroCanvas" width="640" height="360"></canvas>
+          <div class="hero-hud">
+            <span>REC</span>
+            <span id="heroFpsLabel">24 FPS</span>
+            <span>1920 x 1080</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" id="introducao" data-module="1">
+        <header class="module-head">
+          <span class="module-tag">Modulo 01</span>
+          <h2>O que e video digital?</h2>
+          <p>Video digital e uma sequencia de imagens estaticas — os quadros — exibida em ritmo suficiente para o cerebro interpretar movimento continuo.</p>
+        </header>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Quadro (frame)</h3>
+            <p>Cada quadro e uma fotografia digital. A 24 FPS, um segundo de video contem 24 imagens distintas. A persistencia retiniana e o processamento cerebral unem esses recortes em movimento.</p>
+          </article>
+          <article class="card">
+            <h3>Imagem e movimento</h3>
+            <p>Nao existe movimento real no arquivo: existe amostragem temporal. Quanto mais amostras por segundo, mais suave a transicao entre posicoes.</p>
+          </article>
+          <article class="card">
+            <h3>Representacao digital</h3>
+            <p>Cada quadro e uma matriz de pixels. Cada pixel guarda valores de cor (RGB ou YCbCr). O video e, portanto, uma sequencia de matrizes no tempo, sincronizada com uma trilha de audio.</p>
+          </article>
+          <article class="card">
+            <h3>Audio no video</h3>
+            <p>O audio e um fluxo paralelo de amostras sonoras. O contêiner alinha timestamps de video e audio para que boca e fala coincidam — o lip sync.</p>
+          </article>
+        </div>
+
+        <div class="compare-strip">
+          <article class="card contrast">
+            <h3>Analogico</h3>
+            <ul>
+              <li>Sinal continuo de tensao</li>
+              <li>Degradacao a cada copia</li>
+              <li>VHS, Betacam, sinal composto</li>
+            </ul>
+          </article>
+          <article class="card contrast accent">
+            <h3>Digital</h3>
+            <ul>
+              <li>Amostras discretas e quantizadas</li>
+              <li>Copias identicas ao original</li>
+              <li>Arquivos, streaming, edicao nao linear</li>
+            </ul>
+          </article>
+        </div>
+
+        <article class="panel demo-panel">
+          <div class="panel-head">
+            <h3>Demonstracao: quadros viram movimento</h3>
+            <p>Observe a tira de quadros e, ao lado, a mesma sequencia reproduzida em loop.</p>
+          </div>
+          <div class="frame-lab">
+            <div>
+              <p class="label">Sequencia de quadros</p>
+              <canvas id="filmstrip" width="720" height="120" aria-label="Tira de quadros de uma bola em movimento"></canvas>
+            </div>
+            <div>
+              <p class="label">Reproducao continua</p>
+              <canvas id="framePlay" width="320" height="180" aria-label="Animacao formada pelos quadros"></canvas>
+              <div class="inline-controls">
+                <button type="button" class="btn tiny" id="btnToggleFrames">Pausar sequencia</button>
+                <span class="readout" id="frameReadout">quadro 1 / 12</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="module" id="funcionamento" data-module="2">
+        <header class="module-head">
+          <span class="module-tag">Modulo 02</span>
+          <h2>Como funciona o video digital?</h2>
+          <p>Do sensor da camera ate a tela, o video percorre captura, digitalizacao, compressao, armazenamento e reproducao. Selecione cada etapa.</p>
+        </header>
+
+        <div class="pipeline" id="pipeline" role="tablist" aria-label="Etapas do video digital">
+          <button type="button" class="pipe-step is-active" role="tab" aria-selected="true" data-step="0">
+            <span>01</span> Captura
+          </button>
+          <button type="button" class="pipe-step" role="tab" aria-selected="false" data-step="1">
+            <span>02</span> Digitalizacao
+          </button>
+          <button type="button" class="pipe-step" role="tab" aria-selected="false" data-step="2">
+            <span>03</span> Compressao
+          </button>
+          <button type="button" class="pipe-step" role="tab" aria-selected="false" data-step="3">
+            <span>04</span> Arquivo
+          </button>
+          <button type="button" class="pipe-step" role="tab" aria-selected="false" data-step="4">
+            <span>05</span> Reproducao
+          </button>
+        </div>
+
+        <article class="panel pipeline-detail" id="pipelineDetail">
+          <div class="pipeline-art" id="pipelineArt" aria-hidden="true"></div>
+          <div>
+            <h3 id="pipeTitle">Captura da imagem</h3>
+            <p id="pipeText"></p>
+          </div>
+        </article>
+      </section>
+
+      <section class="module" id="fps" data-module="3">
+        <header class="module-head">
+          <span class="module-tag">Modulo 03</span>
+          <h2>Taxa de quadros (FPS)</h2>
+          <p>FPS (Frames Per Second) e o numero de imagens distintas exibidas a cada segundo. A animacao abaixo realmente atualiza no ritmo escolhido.</p>
+        </header>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>24 FPS</h3>
+            <p>Padrao cinematografico. Movimento com textura de cinema, motion blur natural.</p>
+          </article>
+          <article class="card">
+            <h3>30 FPS</h3>
+            <p>Comum em TV, webcams e muitas gravacoes cotidianas. Compromisso entre fluidez e volume de dados.</p>
+          </article>
+          <article class="card">
+            <h3>60 FPS</h3>
+            <p>Jogos, esportes e interfaces. Transicoes nítidas e menor persistencia entre posicoes.</p>
+          </article>
+        </div>
+
+        <article class="panel demo-panel">
+          <div class="panel-head">
+            <h3>Laboratorio de FPS</h3>
+            <p>Arraste o controle. O objeto so e redesenhado na taxa selecionada — o restante do site continua a 60 Hz do navegador.</p>
+          </div>
+          <div class="fps-lab">
+            <canvas id="fpsCanvas" width="860" height="320" aria-label="Objeto animado em diferentes taxas de quadros"></canvas>
+            <div class="fps-controls">
+              <label for="fpsSlider">Taxa de quadros</label>
+              <input type="range" id="fpsSlider" min="8" max="60" step="1" value="24">
+              <div class="fps-readout">
+                <strong id="fpsValue">24</strong>
+                <span>FPS</span>
+              </div>
+              <div class="chip-row" role="group" aria-label="Atalhos de FPS">
+                <button type="button" class="chip" data-fps="24">24</button>
+                <button type="button" class="chip" data-fps="30">30</button>
+                <button type="button" class="chip" data-fps="60">60</button>
+              </div>
+              <p class="hint" id="fpsHint"></p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="module" id="resolucao" data-module="4">
+        <header class="module-head">
+          <span class="module-tag">Modulo 04</span>
+          <h2>Resolucao e pixels</h2>
+          <p>Pixel e o menor ponto de uma imagem digital. Resolucao descreve quantos pixels existem na horizontal e na vertical.</p>
+        </header>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Matriz de pixels</h3>
+            <p>Uma imagem Full HD tem 1920 colunas e 1080 linhas — cerca de 2,07 milhoes de pixels por quadro. Em 30 FPS, isso sao mais de 62 milhoes de pixels por segundo antes da compressao.</p>
+          </article>
+          <article class="card">
+            <h3>Densidade e detalhe</h3>
+            <p>Mais pixels aumentam a capacidade de representar bordas, texturas e texto. Em telas pequenas a diferenca diminui; em projetores e monitores grandes ela fica evidente.</p>
+          </article>
+        </div>
+
+        <article class="panel demo-panel">
+          <div class="panel-head">
+            <h3>Comparacao visual de resolucao</h3>
+            <p>A mesma cena e reamostrada. Nao e um texto descrevendo nitidez: a imagem realmente perde amostras.</p>
+          </div>
+          <div class="res-lab">
+            <canvas id="resCanvas" width="960" height="420" aria-label="Cena renderizada em diferentes resolucoes"></canvas>
+            <div class="res-controls" role="tablist" aria-label="Selecionar resolucao">
+              <button type="button" class="chip" data-res="480">480p</button>
+              <button type="button" class="chip" data-res="720">720p</button>
+              <button type="button" class="chip is-active" data-res="1080">1080p</button>
+              <button type="button" class="chip" data-res="1440">1440p</button>
+              <button type="button" class="chip" data-res="2160">4K</button>
+            </div>
+            <p class="readout" id="resReadout">1920 x 1080 — Full HD</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="module" id="compressao" data-module="5">
+        <header class="module-head">
+          <span class="module-tag">Modulo 05</span>
+          <h2>Compressao de video</h2>
+          <p>Sem compressao, video HD ocupa espaco proibitivo. Codecs eliminam redundancia espacial (dentro do quadro) e temporal (entre quadros).</p>
+        </header>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Com perdas (lossy)</h3>
+            <p>Descarta informacao que o olho tende a ignorar. H.264, HEVC e AV1 operam assim. Permite streaming, mas qualidade cai se o bitrate for insuficiente.</p>
+          </article>
+          <article class="card">
+            <h3>Sem perdas (lossless)</h3>
+            <p>Reconstroi o sinal original bit a bit. Util em mastering e arquivos intermediarios, porem gera arquivos muito maiores.</p>
+          </article>
+          <article class="card">
+            <h3>Redundancia</h3>
+            <p>Fundos estaticos, ceu uniforme e objetos parados repetem dados. Motion estimation descreve o deslocamento em vez de reenviar o bloco inteiro.</p>
+          </article>
+          <article class="card">
+            <h3>Tamanho x qualidade</h3>
+            <p>Bitrate baixo comprime agressivamente: blocos, banding e ghosting. Bitrate alto preserva detalhe, a custa de armazenamento e banda.</p>
+          </article>
+        </div>
+
+        <article class="panel demo-panel">
+          <div class="panel-head">
+            <h3>Original versus comprimido</h3>
+            <p>Estimativa para 10 segundos de video 1080p 30 FPS, 24 bits por pixel, sem audio.</p>
+          </div>
+          <div class="comp-lab">
+            <div class="file-card">
+              <h4>Arquivo original</h4>
+              <p class="file-size" id="rawSize">890 MB</p>
+              <p>Sem compressao (RGB bruto)</p>
+              <div class="bar-track"><div class="bar raw" id="barRaw"></div></div>
+            </div>
+            <div class="file-card accent">
+              <h4>Arquivo comprimido</h4>
+              <p class="file-size" id="compSize">8.0 MB</p>
+              <p>H.264 a <span id="bitrateLabel">6.4 Mbps</span></p>
+              <div class="bar-track"><div class="bar compact" id="barComp"></div></div>
+            </div>
+          </div>
+          <div class="comp-controls">
+            <label for="bitrateSlider">Bitrate do arquivo comprimido</label>
+            <input type="range" id="bitrateSlider" min="1" max="20" step="0.1" value="6.4">
+            <p class="hint" id="compHint">Reducao de cerca de 99%. Qualidade tipica de streaming HD.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="module" id="codecs" data-module="6">
+        <header class="module-head">
+          <span class="module-tag">Modulo 06</span>
+          <h2>Codecs e formatos</h2>
+          <p>O codec compacta e descompacta o sinal. O formato (contêiner) empacota video, audio, legendas e metadados em um arquivo.</p>
+        </header>
+
+        <div class="callout">
+          <p><strong>Analogia:</strong> o codec e o idioma em que a imagem foi escrita. O contêiner e a caixa que transporta essa escrita junto com o som e os capitulos.</p>
+        </div>
+
+        <h3 class="subhead">Codecs</h3>
+        <div class="grid-3">
+          <article class="card codec">
+            <h3>H.264 / AVC</h3>
+            <p class="meta">ISO/IEC 14496-10</p>
+            <ul>
+              <li>Caracteristica: equilibrio entre qualidade e compatibilidade</li>
+              <li>Vantagem: reproduz em praticamente qualquer dispositivo</li>
+              <li>Uso: YouTube, Blu-ray, cameras, videoconferencia</li>
+            </ul>
+          </article>
+          <article class="card codec">
+            <h3>H.265 / HEVC</h3>
+            <p class="meta">ISO/IEC 23008-2</p>
+            <ul>
+              <li>Caracteristica: cerca de 50% menos bitrate que H.264</li>
+              <li>Vantagem: 4K e HDR com arquivos menores</li>
+              <li>Uso: streaming 4K, broadcast, Apple, cameras recentes</li>
+            </ul>
+          </article>
+          <article class="card codec">
+            <h3>AV1</h3>
+            <p class="meta">AOMedia, royalty-free</p>
+            <ul>
+              <li>Caracteristica: eficiencia moderna sem royalties</li>
+              <li>Vantagem: economia de banda em escala</li>
+              <li>Uso: YouTube, Netflix, navegadores atuais</li>
+            </ul>
+          </article>
+        </div>
+
+        <h3 class="subhead">Contêineres</h3>
+        <div class="grid-4">
+          <article class="card">
+            <h3>MP4</h3>
+            <p>Baseado em MPEG-4 Part 14. Padrao da web e do mobile. Costuma carregar H.264 ou HEVC + AAC.</p>
+          </article>
+          <article class="card">
+            <h3>MKV</h3>
+            <p>Matroska. Flexivel: multiplos audios, legendas e capitulos. Popular em arquivos locais.</p>
+          </article>
+          <article class="card">
+            <h3>MOV</h3>
+            <p>QuickTime. Forte no ecossistema de producao Apple e em cameras profissionais.</p>
+          </article>
+          <article class="card">
+            <h3>WebM</h3>
+            <p>Otimizado para a web. Normalmente VP9 ou AV1 com audio Opus.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="module" id="midias" data-module="7">
+        <header class="module-head">
+          <span class="module-tag">Modulo 07</span>
+          <h2>Midias digitais</h2>
+          <p>Depois de comprimido, o video viaja por armazenamento local, midia removivel, nuvem ou redes de streaming ate o dispositivo de reproducao.</p>
+        </header>
+
+        <div class="media-flow" aria-label="Fluxo de armazenamento, transmissao e reproducao">
+          <article class="card media-node">
+            <h3>SSD e HD</h3>
+            <p>SSD oferece leitura rapida para edicao. HD ainda armazena arquivos grandes a custo menor.</p>
+          </article>
+          <article class="card media-node">
+            <h3>Cartoes e pendrives</h3>
+            <p>Cartoes SD/CFexpress nas cameras. Pendrives para transporte pontual, com limite de durabilidade e velocidade.</p>
+          </article>
+          <article class="card media-node">
+            <h3>Nuvem</h3>
+            <p>Copias remotas, colaboracao e backup. A entrega depende da rede e da politica de transcodificacao.</p>
+          </article>
+          <article class="card media-node">
+            <h3>Streaming</h3>
+            <p>O arquivo nao precisa baixar por completo. Adaptive bitrate troca a qualidade conforme a banda.</p>
+          </article>
+          <article class="card media-node">
+            <h3>Reproducao local</h3>
+            <p>Player le o contêiner, decodifica o codec e envia quadros a GPU e amostras ao dispositivo de audio.</p>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h3>Caminho dos dados</h3>
+          <ol class="flow-list">
+            <li>Gravacao no cartao da camera</li>
+            <li>Copia para SSD da estacao de edicao</li>
+            <li>Exportacao comprimida (H.264/HEVC/AV1)</li>
+            <li>Upload para CDN ou arquivo local</li>
+            <li>Decodificacao no aparelho do espectador</li>
+          </ol>
+        </article>
+      </section>
+
+      <section class="module" id="demonstracao" data-module="8">
+        <header class="module-head">
+          <span class="module-tag">Modulo 08</span>
+          <h2>Demonstracao pratica</h2>
+          <p>Player com controles reais sincronizados ao elemento HTML5 video. Timeline, volume e tela cheia operam sobre o arquivo de fato.</p>
+        </header>
+
+        <div class="player" id="player" role="region" aria-label="Reprodutor de video">
+          <div class="player-stage" id="playerStage">
+            <video id="media" playsinline preload="metadata" poster="">
+              <source src="assets/demo.mp4" type="video/mp4">
+              Seu navegador nao reproduz video HTML5.
+            </video>
+            <div class="player-overlay" id="playerOverlay">
+              <button type="button" class="big-play" id="btnBigPlay" aria-label="Reproduzir">
+                <svg viewBox="0 0 64 64" width="72" height="72" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M26 18l22 14-22 14z" fill="currentColor"/></svg>
+              </button>
+              <p class="player-state" id="playerState">Pausado</p>
+            </div>
+            <p class="player-error" id="playerError" hidden>Nao foi possivel carregar o video. Sirva o site por um servidor local.</p>
+          </div>
+
+          <div class="player-controls">
+            <div class="timeline" id="timeline">
+              <input type="range" id="seek" min="0" max="1000" value="0" step="1" aria-label="Posicao do video">
+              <div class="timeline-fill" id="seekFill"></div>
+            </div>
+            <div class="player-bar">
+              <div class="player-group">
+                <button type="button" class="icon-btn" id="btnPlay" aria-label="Reproduzir">
+                  <svg class="icon-play" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24" width="20" height="20" hidden><path fill="currentColor" d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                </button>
+                <button type="button" class="icon-btn" id="btnBack" aria-label="Retroceder 10 segundos">-10s</button>
+                <button type="button" class="icon-btn" id="btnFwd" aria-label="Avancar 10 segundos">+10s</button>
+                <span class="time" id="timeLabel">00:00 / 00:00</span>
+              </div>
+              <div class="player-group">
+                <button type="button" class="icon-btn" id="btnMute" aria-label="Silenciar">
+                  <svg class="icon-vol" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M5 10v4h4l5 4V6L9 10H5zm11.5 2a3.5 3.5 0 00-1.5-2.9v5.8A3.5 3.5 0 0016.5 12z"/></svg>
+                </button>
+                <input type="range" id="volume" min="0" max="1" step="0.01" value="0.85" aria-label="Volume">
+                <button type="button" class="icon-btn" id="btnFs" aria-label="Tela cheia">
+                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm12 0h-2v3h-3v2h5v-5zM7 7h3V5H5v5h2V7zm12-2h-5v2h3v3h2V5z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" id="conclusao" data-module="9">
+        <header class="module-head">
+          <span class="module-tag">Modulo 09</span>
+          <h2>Conclusao</h2>
+          <p>Video digital e amostragem no espaco (pixels) e no tempo (quadros), organizada por codecs e contêineres para caber em discos e redes.</p>
+        </header>
+        <div class="grid-2">
+          <article class="card">
+            <h3>O que vimos</h3>
+            <ul>
+              <li>Quadros criam a ilusao de movimento</li>
+              <li>FPS define a densidade temporal</li>
+              <li>Resolucao define a densidade espacial</li>
+              <li>Compressao torna o video viavel</li>
+              <li>Codecs e contêineres tem papeis distintos</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Para levar da aula</h3>
+            <p>Escolher FPS, resolucao e bitrate e um compromisso entre percepcao humana, capacidade de processamento e limite de armazenamento ou banda.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="site-foot">
+        <p>Video Digital — Sistemas Multimedia. Ciencia da Computacao.</p>
+      </footer>
+    </main>
+  </div>
+
+  <button type="button" class="to-top" id="toTop" aria-label="Voltar ao inicio">Topo</button>
+  <script src="js/app.js"></script>
+</body>
+</html>
