@@ -68,8 +68,17 @@
           <div class="hero-actions">
             <a class="btn primary" href="#introducao">Comecar percurso</a>
             <a class="btn ghost" href="#demonstracao">Ir ao player</a>
-            <button type="button" class="btn ghost" id="btnReadAloud">Ouvir resumo em audio</button>
+            <div class="read-aloud-controls">
+              <button type="button" class="btn ghost" id="btnReadAloud">Ouvir resumo em audio</button>
+              <label class="voice-picker" for="voiceSelect">
+                Voz da narracao
+                <select id="voiceSelect" aria-describedby="voiceHint">
+                  <option value="">Automatica (melhor voz disponivel)</option>
+                </select>
+              </label>
+            </div>
           </div>
+          <p class="voice-hint" id="voiceHint">A selecao automatica prioriza vozes Google e vozes naturais em portugues do Brasil, quando disponiveis.</p>
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="scanline"></div>

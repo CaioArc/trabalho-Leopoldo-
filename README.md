@@ -18,7 +18,7 @@ Depois acesse `http://localhost:8080`.
 - 10 modulos: introducao, funcionamento, FPS, resolucao, compressao, codecs, midias, demonstracao, conclusao e avaliacao
 - avaliacao interativa que sorteia cinco questoes de um banco de quinze, com percentual de acertos
 - cronometro de 15 minutos para o modo de apresentacao
-- resumo narrado pelo navegador em portugues
+- resumo narrado pelo navegador, com selecao de voz e preferencia por vozes Google ou naturais em portugues do Brasil
 - identificacao completa dos integrantes da equipe
 - Animacao de quadros
 - Laboratorio de FPS (o movimento muda de verdade)
