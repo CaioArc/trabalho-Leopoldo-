@@ -534,7 +534,7 @@
       const selected = shuffle(questionBank.slice()).slice(0, 5);
       questionsEl.innerHTML = selected.map((item, index) => {
         const options = item.options.map((option, optionIndex) =>
-          '<label><input type="radio" name="q' + index + '" value="' +
+          '<label><input type="radio" name="q' + (index + 1) + '" value="' +
           (optionIndex === item.answer ? "1" : "0") + '"> ' + option + '</label>'
         ).join("");
         return '<fieldset class="quiz-question"><legend>' + (index + 1) + ". " +
