@@ -7,6 +7,8 @@
   initNav();
   initMenu();
   initPresentation();
+  initPresentationTimer();
+  initReadAloud();
   initToTop();
   initHero();
   initFrames();
@@ -15,6 +17,7 @@
   initResolution();
   initCompression();
   initPlayer();
+  initQuiz();
 
   function initNav() {
     const links = $$(".nav-link");
@@ -65,6 +68,59 @@
       const on = document.body.classList.toggle("present-mode");
       btn.setAttribute("aria-pressed", String(on));
       btn.textContent = on ? "Sair do modo apresentacao" : "Modo apresentacao";
+    });
+  }
+
+  function initPresentationTimer() {
+    const label = $("#presentationTime");
+    const btn = $("#btnPresentationTimer");
+    if (!label || !btn) return;
+    let remaining = 15 * 60;
+    let interval = null;
+
+    function format(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return String(minutes).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+    }
+
+    btn.addEventListener("click", () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+        btn.textContent = "Continuar";
+        return;
+      }
+      btn.textContent = "Pausar";
+      interval = setInterval(() => {
+        remaining = Math.max(0, remaining - 1);
+        label.textContent = format(remaining);
+        if (remaining === 0) {
+          clearInterval(interval);
+          interval = null;
+          btn.textContent = "Reiniciar";
+          remaining = 15 * 60;
+        }
+      }, 1000);
+    });
+  }
+
+  function initReadAloud() {
+    const btn = $("#btnReadAloud");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      if (!("speechSynthesis" in window)) {
+        btn.textContent = "Audio nao suportado";
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const text = "Vídeo digital é uma sequência de quadros exibida em ritmo suficiente para criar a sensação de movimento. FPS indica a quantidade de quadros por segundo. Resolucao indica a quantidade de pixels. Compressao reduz o tamanho do arquivo. Codecs realizam a compressao e o conteiner organiza os fluxos de vídeo e audio.";
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "pt-BR";
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+      btn.textContent = "Ouvindo resumo...";
+      utterance.onend = () => { btn.textContent = "Ouvir resumo em audio"; };
     });
   }
 
@@ -437,6 +493,33 @@
 
     slider.addEventListener("input", apply);
     apply();
+  }
+
+  function initQuiz() {
+    const form = $("#quiz");
+    const result = $("#quizResult");
+    if (!form || !result) return;
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      let correct = 0;
+      let answered = 0;
+      for (let i = 1; i <= 5; i++) {
+        const selected = form.querySelector('input[name="q' + i + '"]:checked');
+        if (selected) {
+          answered++;
+          correct += Number(selected.value);
+        }
+      }
+      if (answered < 5) {
+        result.textContent = "Responda as cinco questões antes de ver o resultado.";
+        result.className = "quiz-result is-warning";
+        return;
+      }
+      const percent = correct * 20;
+      result.textContent = "Resultado: " + correct + " de 5 acertos — " + percent + "%.";
+      result.className = "quiz-result " + (percent >= 70 ? "is-success" : "is-review");
+    });
   }
 
   function initPlayer() {

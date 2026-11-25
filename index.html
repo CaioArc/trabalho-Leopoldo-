@@ -35,10 +35,16 @@
         <a href="#midias" class="nav-link" data-section="midias"><span class="nav-index">07</span> Midias digitais</a>
         <a href="#demonstracao" class="nav-link" data-section="demonstracao"><span class="nav-index">08</span> Demonstracao</a>
         <a href="#conclusao" class="nav-link" data-section="conclusao"><span class="nav-index">09</span> Conclusao</a>
+        <a href="#avaliacao" class="nav-link" data-section="avaliacao"><span class="nav-index">10</span> Avaliacao</a>
       </nav>
 
       <div class="sidebar-actions">
         <button type="button" class="ghost-btn" id="btnApresentacao" aria-pressed="false">Modo apresentacao</button>
+        <div class="presentation-timer" aria-label="Cronometro da apresentacao">
+          <span>Tempo da apresentacao</span>
+          <strong id="presentationTime">15:00</strong>
+          <button type="button" class="chip" id="btnPresentationTimer">Iniciar</button>
+        </div>
       </div>
     </aside>
 
@@ -62,6 +68,7 @@
           <div class="hero-actions">
             <a class="btn primary" href="#introducao">Comecar percurso</a>
             <a class="btn ghost" href="#demonstracao">Ir ao player</a>
+            <button type="button" class="btn ghost" id="btnReadAloud">Ouvir resumo em audio</button>
           </div>
         </div>
         <div class="hero-visual" aria-hidden="true">
@@ -493,8 +500,60 @@
         </div>
       </section>
 
+      <section class="module" id="avaliacao" data-module="10">
+        <header class="module-head">
+          <span class="module-tag">Modulo 10</span>
+          <h2>Avaliacao interativa</h2>
+          <p>Responda às cinco questões para verificar os conceitos trabalhados. Ao final, o sistema mostra o percentual de acertos.</p>
+        </header>
+
+        <form class="quiz" id="quiz">
+          <fieldset class="quiz-question">
+            <legend>1. O que forma a ilusão de movimento em um vídeo digital?</legend>
+            <label><input type="radio" name="q1" value="1"> Quadros exibidos em sequência</label>
+            <label><input type="radio" name="q1" value="0"> Pixels fixos</label>
+            <label><input type="radio" name="q1" value="0"> Legendas</label>
+          </fieldset>
+          <fieldset class="quiz-question">
+            <legend>2. O que significa 30 FPS?</legend>
+            <label><input type="radio" name="q2" value="1"> 30 quadros por segundo</label>
+            <label><input type="radio" name="q2" value="0"> 30 pixels por linha</label>
+            <label><input type="radio" name="q2" value="0"> 30 megabytes por minuto</label>
+          </fieldset>
+          <fieldset class="quiz-question">
+            <legend>3. Qual é a diferença principal entre codec e contêiner?</legend>
+            <label><input type="radio" name="q3" value="1"> Codec compacta; contêiner organiza os fluxos</label>
+            <label><input type="radio" name="q3" value="0"> Ambos são resoluções de vídeo</label>
+            <label><input type="radio" name="q3" value="0"> Contêiner substitui o player</label>
+          </fieldset>
+          <fieldset class="quiz-question">
+            <legend>4. O que a resolução descreve?</legend>
+            <label><input type="radio" name="q4" value="1"> Quantidade de pixels na largura e altura</label>
+            <label><input type="radio" name="q4" value="0"> Quantidade de quadros por segundo</label>
+            <label><input type="radio" name="q4" value="0"> Tempo total do arquivo</label>
+          </fieldset>
+          <fieldset class="quiz-question">
+            <legend>5. Qual recurso normalmente permite enviar vídeo pela Internet com menor tamanho?</legend>
+            <label><input type="radio" name="q5" value="1"> Compressão por codec</label>
+            <label><input type="radio" name="q5" value="0"> Aumentar o número de pixels sem processar</label>
+            <label><input type="radio" name="q5" value="0"> Remover a timeline</label>
+          </fieldset>
+          <button type="submit" class="btn primary">Ver resultado</button>
+        </form>
+        <output class="quiz-result" id="quizResult" aria-live="polite"></output>
+      </section>
+
       <footer class="site-foot">
         <p>Video Digital — Sistemas Multimedia. Ciencia da Computacao.</p>
+        <div class="team">
+          <h3>Equipe participante</h3>
+          <ul>
+            <li>Caio Marcos do Amaral Rangel — matrícula 01736036</li>
+            <li>Giovanni Saverio Svedese Rocha — matrícula 01725339</li>
+            <li>João Gabriel Cavalcante de Melo — matrícula 01750479</li>
+            <li>Nildo Francisco da Silva Junior — matrícula 01685709</li>
+          </ul>
+        </div>
       </footer>
     </main>
   </div>

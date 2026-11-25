@@ -15,7 +15,11 @@ Depois acesse `http://localhost:8080`.
 
 ## O que tem no site
 
-- 9 modulos: introducao, funcionamento, FPS, resolucao, compressao, codecs, midias, player e conclusao
+- 10 modulos: introducao, funcionamento, FPS, resolucao, compressao, codecs, midias, demonstracao, conclusao e avaliacao
+- avaliacao interativa com cinco questoes e percentual de acertos
+- cronometro de 15 minutos para o modo de apresentacao
+- resumo narrado pelo navegador em portugues
+- identificacao completa dos integrantes da equipe
 - Animacao de quadros
 - Laboratorio de FPS (o movimento muda de verdade)
 - Comparacao visual de resolucao
