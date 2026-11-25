@@ -16,7 +16,7 @@ Depois acesse `http://localhost:8080`.
 ## O que tem no site
 
 - 10 modulos: introducao, funcionamento, FPS, resolucao, compressao, codecs, midias, demonstracao, conclusao e avaliacao
-- avaliacao interativa com cinco questoes e percentual de acertos
+- avaliacao interativa que sorteia cinco questoes de um banco de quinze, com percentual de acertos
 - cronometro de 15 minutos para o modo de apresentacao
 - resumo narrado pelo navegador em portugues
 - identificacao completa dos integrantes da equipe

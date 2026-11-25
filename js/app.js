@@ -498,7 +498,51 @@
   function initQuiz() {
     const form = $("#quiz");
     const result = $("#quizResult");
-    if (!form || !result) return;
+    const questionsEl = $("#quizQuestions");
+    const newQuizBtn = $("#btnNewQuiz");
+    if (!form || !result || !questionsEl || !newQuizBtn) return;
+
+    const questionBank = [
+      { question: "O que forma a ilusão de movimento em um vídeo digital?", options: ["Quadros exibidos em sequência", "Pixels fixos na tela", "Legendas sincronizadas"], answer: 0 },
+      { question: "O que significa a sigla FPS?", options: ["Formato de pixels sincronizados", "Quadros por segundo", "Frequência de processamento do som"], answer: 1 },
+      { question: "O que a resolução de um vídeo descreve?", options: ["A quantidade de pixels na largura e na altura", "A duração total do vídeo", "A quantidade de canais de áudio"], answer: 0 },
+      { question: "Qual é a função principal de um codec de vídeo?", options: ["Organizar os arquivos em pastas", "Codificar e decodificar o vídeo, geralmente comprimindo-o", "Aumentar o tamanho da tela"], answer: 1 },
+      { question: "O que é um contêiner, como MP4 ou MKV?", options: ["Um dispositivo de captura", "Um tipo de resolução", "Um formato que reúne vídeo, áudio e metadados"], answer: 2 },
+      { question: "O que caracteriza a compressão com perdas (lossy)?", options: ["Reduz o tamanho descartando parte da informação", "Mantém todos os dados originais", "Aumenta a resolução sem alterar o arquivo"], answer: 0 },
+      { question: "O que é bitrate?", options: ["A velocidade de exibição dos quadros", "A quantidade de dados processada ou transmitida por unidade de tempo", "O número de pixels de uma imagem"], answer: 1 },
+      { question: "Qual destes é um codec de vídeo?", options: ["H.264", "MP4", "HDMI"], answer: 0 },
+      { question: "Como o áudio e o vídeo podem permanecer sincronizados no arquivo?", options: ["Usando timestamps para alinhar os fluxos", "Usando a mesma resolução", "Repetindo o primeiro quadro"], answer: 0 },
+      { question: "O que é um pixel?", options: ["Uma unidade de armazenamento de áudio", "O menor elemento de uma imagem digital", "Um quadro completo de vídeo"], answer: 1 },
+      { question: "O que geralmente acontece quando se aumenta a taxa de quadros?", options: ["O movimento pode ficar mais fluido, com mais quadros por segundo", "A resolução sempre diminui", "O áudio deixa de ser necessário"], answer: 0 },
+      { question: "Qual é a função do sensor durante a captura de vídeo?", options: ["Converter a luz da cena em sinais que serão digitalizados", "Comprimir o arquivo MP4", "Reproduzir o vídeo na tela"], answer: 0 },
+      { question: "Como funciona o bitrate adaptativo em streaming?", options: ["Ajusta a qualidade do vídeo conforme as condições da rede", "Desliga o áudio quando a rede fica rápida", "Converte todos os vídeos para a mesma resolução"], answer: 0 },
+      { question: "Qual alternativa é um exemplo de mídia de armazenamento removível?", options: ["Cartão SD", "Codec AV1", "Resolução Full HD"], answer: 0 },
+      { question: "Qual é uma característica da compressão sem perdas (lossless)?", options: ["Descarta detalhes permanentemente", "Permite reconstruir os dados originais bit a bit", "Só funciona para áudio"], answer: 1 }
+    ];
+
+    function shuffle(items) {
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = items[i];
+        items[i] = items[j];
+        items[j] = temp;
+      }
+      return items;
+    }
+
+    function drawQuestions() {
+      const selected = shuffle(questionBank.slice()).slice(0, 5);
+      questionsEl.innerHTML = selected.map((item, index) => {
+        const options = item.options.map((option, optionIndex) =>
+          '<label><input type="radio" name="q' + index + '" value="' +
+          (optionIndex === item.answer ? "1" : "0") + '"> ' + option + '</label>'
+        ).join("");
+        return '<fieldset class="quiz-question"><legend>' + (index + 1) + ". " +
+          item.question + "</legend>" + options + "</fieldset>";
+      }).join("");
+      result.textContent = "";
+      result.className = "quiz-result";
+    }
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -520,6 +564,9 @@
       result.textContent = "Resultado: " + correct + " de 5 acertos — " + percent + "%.";
       result.className = "quiz-result " + (percent >= 70 ? "is-success" : "is-review");
     });
+
+    newQuizBtn.addEventListener("click", drawQuestions);
+    drawQuestions();
   }
 
   function initPlayer() {
