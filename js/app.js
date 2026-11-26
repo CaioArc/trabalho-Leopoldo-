@@ -510,39 +510,90 @@
       return items;
     }
 
-    function drawQuestions() {
-      const selected = shuffle(questionBank.slice()).slice(0, 5);
-      questionsEl.innerHTML = selected.map((item, index) => {
-        const options = item.options.map((option, optionIndex) =>
-          '<label><input type="radio" name="q' + (index + 1) + '" value="' +
-          (optionIndex === item.answer ? "1" : "0") + '"> ' + option + '</label>'
-        ).join("");
-        return '<fieldset class="quiz-question"><legend>' + (index + 1) + ". " +
-          item.question + "</legend>" + options + "</fieldset>";
-      }).join("");
-      result.textContent = "";
-      result.className = "quiz-result";
+    const LETTERS = ["A", "B", "C", "D"];
+    let graded = false;
+
+    function updateProgress() {
+      const total = questionsEl.querySelectorAll(".quiz-question").length;
+      const answered = questionsEl.querySelectorAll(".quiz-question input:checked").length;
+      const text = questionsEl.querySelector("[data-progress-text]");
+      const bar = questionsEl.querySelector("[data-progress-bar]");
+      if (text) text.textContent = answered;
+      if (bar) bar.style.width = (total ? (answered / total) * 100 : 0) + "%";
+      questionsEl.querySelectorAll(".quiz-question").forEach((fs) => {
+        const done = !!fs.querySelector("input:checked");
+        fs.classList.toggle("is-answered", done);
+        if (done) fs.classList.remove("is-missing");
+      });
     }
+
+    function drawQuestions() {
+      graded = false;
+      const selected = shuffle(questionBank.slice()).slice(0, 5);
+      const progress = '<div class="quiz-progress" aria-hidden="true">' +
+        '<div class="quiz-progress-text"><span>Respondidas: <strong data-progress-text>0</strong> de 5</span>' +
+        '<span>Escolha uma alternativa por questão</span></div>' +
+        '<div class="quiz-progress-bar"><i data-progress-bar></i></div></div>';
+      questionsEl.innerHTML = progress + selected.map((item, index) => {
+        const options = item.options.map((option, optionIndex) =>
+          '<label class="quiz-option"><input type="radio" name="q' + (index + 1) + '" value="' +
+          (optionIndex === item.answer ? "1" : "0") + '">' +
+          '<span class="q-letter">' + LETTERS[optionIndex] + '</span>' +
+          '<span class="q-label">' + option + '</span></label>'
+        ).join("");
+        return '<fieldset class="quiz-question" data-correct="' + item.options[item.answer].replace(/"/g, "&quot;") + '">' +
+          '<legend><span class="q-num">' + (index + 1) + '</span><span>' + item.question + '</span></legend>' +
+          options + "</fieldset>";
+      }).join("");
+      result.innerHTML = "";
+      result.className = "quiz-result";
+      const submit = form.querySelector('button[type="submit"]');
+      if (submit) submit.disabled = false;
+      updateProgress();
+    }
+
+    questionsEl.addEventListener("change", () => { if (!graded) updateProgress(); });
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      let correct = 0;
-      let answered = 0;
-      for (let i = 1; i <= 5; i++) {
-        const selected = form.querySelector('input[name="q' + i + '"]:checked');
-        if (selected) {
-          answered++;
-          correct += Number(selected.value);
-        }
-      }
-      if (answered < 5) {
-        result.textContent = "Responda as cinco questões antes de ver o resultado.";
+      if (graded) return;
+      const fieldsets = Array.from(questionsEl.querySelectorAll(".quiz-question"));
+      const missing = fieldsets.filter((fs) => !fs.querySelector("input:checked"));
+      if (missing.length) {
+        fieldsets.forEach((fs) => fs.classList.toggle("is-missing", missing.includes(fs)));
+        result.textContent = "Responda as cinco questões antes de ver o resultado. Faltam " + missing.length + ".";
         result.className = "quiz-result is-warning";
+        missing[0].scrollIntoView({ behavior: "smooth", block: "center" });
         return;
       }
+      let correct = 0;
+      fieldsets.forEach((fs) => {
+        fs.classList.remove("is-missing");
+        fs.classList.add("is-graded");
+        fs.querySelectorAll(".quiz-option").forEach((label) => {
+          const input = label.querySelector("input");
+          input.disabled = true;
+          if (input.value === "1") label.classList.add("is-correct");
+          else if (input.checked) label.classList.add("is-wrong");
+        });
+        const chosen = fs.querySelector("input:checked");
+        if (chosen.value === "1") correct++;
+        else {
+          const note = document.createElement("p");
+          note.className = "q-feedback";
+          note.textContent = "Resposta correta: " + fs.dataset.correct;
+          fs.appendChild(note);
+        }
+      });
+      graded = true;
       const percent = correct * 20;
-      result.textContent = "Resultado: " + correct + " de 5 acertos — " + percent + "%.";
+      const msg = percent >= 70 ? "Muito bem! Você dominou o conteúdo." : "Revise os módulos e tente de novo com outras perguntas.";
       result.className = "quiz-result " + (percent >= 70 ? "is-success" : "is-review");
+      result.innerHTML = '<div class="score-card"><div class="score-ring" style="--pct:' + percent + '"><b>' + percent + '%</b></div>' +
+        '<div class="score-text"><strong>Resultado: ' + correct + " de 5 acertos — " + percent + '%</strong><span>' + msg + "</span></div></div>";
+      const submit = form.querySelector('button[type="submit"]');
+      if (submit) submit.disabled = true;
+      result.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
 
     newQuizBtn.addEventListener("click", drawQuestions);
